@@ -1,150 +1,236 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Palette,
+  ArrowDown,
+  TerminalIcon,
+  ArrowUp,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const CATEGORIES = [
-  { id: "fullstack", label: "Full Stack", row: 1, featured: true },
-  { id: "opensource", label: "Open Source", row: 1 },
-  { id: "devtools", label: "Dev Tools", row: 1 },
-  { id: "responsive", label: "Responsive", row: 2 },
-  { id: "react", label: "React", row: 2, featured: true },
-  { id: "personal-site", label: "Personal Site", row: 2 },
-  { id: "minimal-ui", label: "Minimal UI", row: 3, featured: true },
-  { id: "design-systems", label: "Design Systems", row: 3 },
-  { id: "grid-layouts", label: "Grid Layouts", row: 3 },
-  { id: "animation", label: "Animation", row: 4 },
-  { id: "startup-showcase", label: "Startup Showcase", row: 4 },
-  { id: "dark-theme", label: "Dark Theme", row: 4 },
-  { id: "clean-code", label: "Clean Code", row: 5 },
-  { id: "pastel-ui", label: "3 JS and AR", row: 5, featured: true },
-  { id: "grid-v2", label: "Grid v2", row: 5 },
-  { id: "typography", label: "Typography", row: 6 },
-  { id: "illustrations", label: "Illustrations", row: 6 },
-  { id: "deploy-ready", label: "Deploy Ready", row: 6 },
-  { id: "playground", label: "Playground", row: 7 },
-  { id: "ecommerce", label: "E-commerce", row: 7 },
-  { id: "nextjs", label: "Next.js", row: 7, featured: true }
-];
-
 const GUIInterface = () => {
-  const [selectedCategories, setSelectedCategories] = useState([]);
-const navigate=useNavigate()
-  // Toggle category selection
-  const toggleCategory = (categoryId) => {
-    if (selectedCategories.includes(categoryId)) {
-      setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
-    } else {
-      setSelectedCategories([...selectedCategories, categoryId]);
-    }
+  const [foregroundColor, setForegroundColor] = useState("#000000");
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const navigate = useNavigate();
+
+  // Apply theme colors to CSS variables
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--foreground-color",
+      foregroundColor
+    );
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  }, [foregroundColor, backgroundColor]);
+
+  const handleTerminalClick = () => {
+    navigate("/terminal");
   };
 
-  const handleClick = () =>{
-    navigate('/projects')
-  }
-  // Group categories by row
-  const getCategoriesByRow = () => {
-    const rows = {};
-    CATEGORIES.forEach(category => {
-      if (!rows[category.row]) {
-        rows[category.row] = [];
-      }
-      rows[category.row].push(category);
-    });
-    return rows;
+  const handleProjectsClick = () => {
+    navigate("/projects");
   };
 
-  const categoryRows = getCategoriesByRow();
+  const swapColors = () => {
+    const temp = foregroundColor;
+    setForegroundColor(backgroundColor);
+    setBackgroundColor(temp);
+  };
 
   return (
-    <div className="flex w-full h-screen bg-black text-white">
-      {/* Left side - Logo and Headline */}
-      <div className="w-1/2 p-12 flex flex-col justify-between">
-        {/* Logo */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-3xl font-bold"
-          >
-            AD
-          </motion.div>
-        </div>
+    <div
+      className="min-h-screen w-full flex flex-col justify-between p-8 lg:p-12 transition-all duration-300 ease-in-out"
+      style={{
+        backgroundColor: backgroundColor,
+        color: foregroundColor,
+      }}
+    >
+      {/* Header */}
+      <header className="flex justify-between items-start relative">
+        <button
+          onClick={handleTerminalClick}
+          className="text-2xl lg:text-3xl font-bold tracking-tight transition-all duration-200 hover:opacity-70 active:scale-95 flex items-center gap-2"
+          style={{ color: foregroundColor }}
+          title="Open Terminal"
+        >
+          <TerminalIcon size={28} />
+        </button>
 
-        {/* Main headline */}
-        <div className="mb-40 ml-20">
-          <motion.h1 
-            className="text-9xl font-bold leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+        {/* Theme Controls */}
+        <div className="flex items-center gap-4 relative">
+          <button
+            onClick={swapColors}
+            className="p-2 border transition-all duration-200 hover:opacity-70"
+            style={{
+              borderColor: foregroundColor,
+              color: foregroundColor,
+            }}
+            title="Swap colors"
+          >
+            <Palette size={20} />
+          </button>
+
+          <button
+            onClick={() => setShowColorPicker(!showColorPicker)}
+            className="p-2 border transition-all duration-200 hover:opacity-70 relative"
+            style={{
+              borderColor: foregroundColor,
+              color: foregroundColor,
+            }}
+            title="Customize colors"
+          >
+            ●
+          </button>
+
+          {/* Animated Arrow pointing to color picker */}
+          <div
+            className="absolute -bottom-12 right-4 animate-bounce"
+            style={{ color: foregroundColor }}
+          >
+            <ArrowUp size={24} className="animate-pulse" />
+          </div>
+
+          {/* Arrow label */}
+          <div
+            className="absolute -bottom-20 right-0 text-sm whitespace-nowrap animate-pulse"
+            style={{ color: foregroundColor, opacity: 0.7 }}
+          >
+            Try this!
+          </div>
+        </div>
+      </header>
+
+      {/* Color Picker Panel */}
+      {showColorPicker && (
+        <div
+          className="absolute top-20 right-8 lg:right-12 p-6 border shadow-lg z-10 animate-in fade-in duration-200"
+          style={{
+            backgroundColor: backgroundColor,
+            borderColor: foregroundColor,
+          }}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium min-w-[80px]">Text:</label>
+              <input
+                type="color"
+                value={foregroundColor}
+                onChange={(e) => setForegroundColor(e.target.value)}
+                className="w-8 h-8 border-0 cursor-pointer rounded"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium min-w-[80px]">
+                Background:
+              </label>
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => setBackgroundColor(e.target.value)}
+                className="w-8 h-8 border-0 cursor-pointer rounded"
+              />
+            </div>
+            <button
+              onClick={() => {
+                setForegroundColor("#000000");
+                setBackgroundColor("#ffffff");
+              }}
+              className="text-xs py-1 px-2 border transition-all duration-200 hover:opacity-70"
+              style={{
+                borderColor: foregroundColor,
+                color: foregroundColor,
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1 flex items-center justify-center">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1
+            className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold leading-none mb-6"
+            style={{ color: foregroundColor }}
           >
             Aashutosh Dahal
-          </motion.h1>
-          <motion.h2
-            className="text-2xl font-light leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            just another cs geek who like working on projects, minimalist UI because i am colorblind and tend to messup colors while designing anything from scratch and i like working on backend apis and systems
-          </motion.h2>
-          
-          <motion.button 
-            className="mt-8 border border-white px-6 py-2 font-bold text-2xl hover:bg-white hover:text-black transition-colors"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            onClick={handleClick}
+          </h1>
+
+          <div className="max-w-3xl mx-auto mb-10">
+            <p
+              className="text-lg lg:text-xl xl:text-2xl font-light leading-relaxed"
+              style={{ color: foregroundColor, opacity: 0.8 }}
+            >
+              Just another CS geek who likes working on projects. Minimalist UI
+              because I am colorblind and tend to mess up colors while designing
+              anything from scratch. I like working on backend APIs and systems.
+            </p>
+          </div>
+
+          <button
+            onClick={handleProjectsClick}
+            className="px-8 py-3 text-lg lg:text-xl font-medium border-2 transition-all duration-200 hover:opacity-70 active:scale-95"
+            style={{
+              borderColor: foregroundColor,
+              color: foregroundColor,
+              backgroundColor: "transparent",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = foregroundColor;
+              e.target.style.color = backgroundColor;
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.color = foregroundColor;
+            }}
           >
             View Projects
-          </motion.button>
-          
-          {/* Social Media Links */}
-          <motion.div 
-            className="mt-8 flex gap-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <a href="https://github.com/AashutoshDL" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">
-              <Github size={24} />
-            </a>
-            <a href="https://linkedin.com/in/aashutosh-dahal/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">
-              <Linkedin size={24} />
-            </a>
-            <a href="mailto:aashudahal11@gmail.com" className="hover:text-gray-400 transition-colors">
-              <Mail size={24} />
-            </a>
-          </motion.div>
+          </button>
         </div>
-      </div>
+      </main>
 
-      {/* Right side - Categories */}
-      <div className="w-1/2 p-8 flex flex-col justify-center">
-        <div className="flex flex-wrap gap-6 justify-center">
-          {/* Render categories by row */}
-          {Object.keys(categoryRows).map(rowNum => (
-            <div key={rowNum} className="w-full flex flex-wrap gap-5 justify-center mb-4">
-              {categoryRows[rowNum].map(category => (
-                <motion.button
-                  key={category.id}
-                  onClick={() => toggleCategory(category.id)}
-                  className={`px-5 py-2 rounded-full border border-white transition-all
-                    ${category.featured || selectedCategories.includes(category.id) 
-                      ? "bg-white text-black" 
-                      : "bg-transparent text-white hover:bg-white/10"}`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {category.label}
-                </motion.button>
-              ))}
-            </div>
-          ))}
+      {/* Footer */}
+      <footer className="flex flex-col sm:flex-row justify-between items-center gap-6">
+        {/* Social Links */}
+        <div className="flex gap-6">
+          <a
+            href="https://github.com/AashutoshDL"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-opacity duration-200 hover:opacity-70"
+            style={{ color: foregroundColor }}
+          >
+            <Github size={24} />
+          </a>
+          <a
+            href="https://linkedin.com/in/aashutosh-dahal/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-opacity duration-200 hover:opacity-70"
+            style={{ color: foregroundColor }}
+          >
+            <Linkedin size={24} />
+          </a>
+          <a
+            href="mailto:aashudahal11@gmail.com"
+            className="transition-opacity duration-200 hover:opacity-70"
+            style={{ color: foregroundColor }}
+          >
+            <Mail size={24} />
+          </a>
         </div>
-      </div>
+
+        {/* Copyright */}
+        <div className="text-sm opacity-60" style={{ color: foregroundColor }}>
+          © 2025 Aashutosh Dahal
+        </div>
+      </footer>
     </div>
   );
 };
