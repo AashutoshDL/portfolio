@@ -1,56 +1,57 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const Projects = () => {
   // Sample project data
   const projectData = [
     {
-      title: 'Ev Repair',
-      description: 'An Ev Repair Website made for advert',
-      image: '/portfolio/ev.png',
-      link: 'https://ev-repair.vercel.app/',
+      title: "Ev Repair",
+      description: "An Ev Repair Website made for advert",
+      image: "/portfolio/ev.png",
+      link: "https://ev-repair.vercel.app/",
       id: 1,
     },
     {
-      title: 'Bhasalaya',
-      description: 'This is an web application for learning Nepali, Samajik and Sanskrit',
-      image: '/portfolio/bhasa.png',
-      link: '',
+      title: "Bhasalaya",
+      description:
+        "This is an web application for learning Nepali, Samajik and Sanskrit",
+      image: "/portfolio/bhasa.png",
+      link: "",
       id: 2,
     },
     {
-      title: 'Medisys',
-      description: 'Health Tracking Application (Web Application)',
-      image: '/portfolio/medisys.png',
-      link: 'https://github.com/AashutoshDL/Clinic-Management-System',
+      title: "Medisys",
+      description: "Health Tracking Application (Web Application)",
+      image: "/portfolio/medisys.png",
+      link: "https://github.com/AashutoshDL/Clinic-Management-System",
       id: 3,
     },
     {
-      title: 'VROOM',
-      description: 'This is the Car Rental Web Application',
-      image: '/portfolio/vroom.png',
-      link: 'https://github.com/AashutoshDL/VROOM.git',
+      title: "VROOM",
+      description: "This is the Car Rental Web Application",
+      image: "/portfolio/vroom.png",
+      link: "https://github.com/AashutoshDL/VROOM.git",
       id: 5,
     },
     {
-      title: 'Sticker Mash',
-      description: 'Simple React native app which edits stickers together',
-      image: '/portfolio/image2.jpg',
-      link: 'https://github.com/AashutoshDL/StickerMash',
+      title: "Sticker Mash",
+      description: "Simple React native app which edits stickers together",
+      image: "/portfolio/image2.jpg",
+      link: "https://github.com/AashutoshDL/StickerMash",
       id: 6,
     },
     {
-      title: 'TechnoUniverse',
-      description: 'Website for company built using next js',
-      image: '/portfolio/techno.png',
-      link: 'https://technouniversenp.vercel.app/',
+      title: "TechnoUniverse",
+      description: "Website for company built using next js",
+      image: "/portfolio/techno.png",
+      link: "https://technouniversenp.vercel.app/",
       id: 7,
     },
   ];
 
   return (
     <div className="bg-black text-white py-20 px-8">
-      <motion.h2 
+      <motion.h2
         className="text-5xl font-bold mb-12 px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -58,7 +59,7 @@ const Projects = () => {
       >
         Projects
       </motion.h2>
-      
+
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {projectData.map((project, index) => (
           <motion.div
@@ -76,10 +77,12 @@ const Projects = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            
+
             <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-            <p className="text-white/70 mb-6 flex-grow">{project.description}</p>
-            
+            <p className="text-white/70 mb-6 flex-grow">
+              {project.description}
+            </p>
+
             <motion.a
               href={project.link || "#"}
               className="border border-white px-6 py-2 text-center hover:bg-white hover:text-black transition-colors inline-block"

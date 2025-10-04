@@ -29,10 +29,12 @@ const GUIInterface = () => {
   }, [foregroundColor, backgroundColor]);
 
   const handleTerminalClick = () => {
-    navigate("/terminal");
+    console.log("Navigate to terminal");
+    // navigate("/terminal");
   };
 
   const handleProjectsClick = () => {
+    console.log("Navigate to projects");
     navigate("/projects");
   };
 
@@ -52,15 +54,6 @@ const GUIInterface = () => {
     >
       {/* Header */}
       <header className="flex justify-between items-start relative">
-        <button
-          onClick={handleTerminalClick}
-          className="text-2xl lg:text-3xl font-bold tracking-tight transition-all duration-200 hover:opacity-70 active:scale-95 flex items-center gap-2"
-          style={{ color: foregroundColor }}
-          title="Open Terminal"
-        >
-          <TerminalIcon size={28} />
-        </button>
-
         {/* Theme Controls */}
         <div className="flex items-center gap-4 relative">
           <button
@@ -88,27 +81,40 @@ const GUIInterface = () => {
           </button>
 
           {/* Animated Arrow pointing to color picker */}
-          <div
-            className="absolute -bottom-12 right-4 animate-bounce"
-            style={{ color: foregroundColor }}
-          >
-            <ArrowUp size={24} className="animate-pulse" />
-          </div>
+          {!showColorPicker && (
+            <>
+              <div
+                className="absolute -bottom-12 left-4 animate-bounce"
+                style={{ color: foregroundColor }}
+              >
+                <ArrowUp size={24} className="animate-pulse" />
+              </div>
 
-          {/* Arrow label */}
-          <div
-            className="absolute -bottom-20 right-0 text-sm whitespace-nowrap animate-pulse"
-            style={{ color: foregroundColor, opacity: 0.7 }}
-          >
-            Try this!
-          </div>
+              {/* Arrow label */}
+              <div
+                className="absolute -bottom-20 left-0 text-sm whitespace-nowrap animate-pulse"
+                style={{ color: foregroundColor, opacity: 0.7 }}
+              >
+                Try this!
+              </div>
+            </>
+          )}
         </div>
+
+        <button
+          onClick={handleTerminalClick}
+          className="text-2xl lg:text-3xl font-bold tracking-tight transition-all duration-200 hover:opacity-70 active:scale-95 flex items-center gap-2"
+          style={{ color: foregroundColor }}
+          title="Open Terminal"
+        >
+          <TerminalIcon size={28} />
+        </button>
       </header>
 
       {/* Color Picker Panel */}
       {showColorPicker && (
         <div
-          className="absolute top-20 right-8 lg:right-12 p-6 border shadow-lg z-10 animate-in fade-in duration-200"
+          className="absolute top-20 left-8 lg:left-12 p-6 border shadow-lg z-10 animate-in fade-in duration-200"
           style={{
             backgroundColor: backgroundColor,
             borderColor: foregroundColor,
