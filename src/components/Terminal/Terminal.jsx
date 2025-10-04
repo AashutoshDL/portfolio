@@ -1,54 +1,91 @@
 import { desc } from "framer-motion/client";
 import React, { useState, useEffect, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // All commands in one simple object
 const commands = {
-  help: {
-    description: "Show available commands",
+  ls: {
+    description: "Show available directories",
     output: (
       <div className="text-green-400">
-        <div className="mb-2">Available commands:</div>
+        <div className="mb-2">Available directories:</div>
         <div className="text-gray-300 space-y-1">
           <div>
-            • <span className="text-yellow-400">about</span> - Learn about me
-          </div>
-          <div>
-            • <span className="text-yellow-400">skills</span> - View my
-            technical skills
-          </div>
-          <div>
-            • <span className="text-yellow-400">contact</span> - Get my contact
-            info
-          </div>
-          <div>
-            • <span className="text-yellow-400">projects</span> - See my
-            projects
-          </div>
-          <div>
-            • <span className="text-yellow-400">resume</span> - View my resume
-          </div>
-          <div>
-            • <span className="text-yellow-400">clear</span> - Clear the
-            terminal
-          </div>
-          <div>
-            • <span className="text-yellow-400">exit</span> - Exit from the
-            terminal
+            <span className="text-yellow-400">about</span>
+            <br />
+            <span className="text-yellow-400">skills.sh</span>
+            <br />
+            <span className="text-yellow-400">contact.txt</span>
+            <br />
+            <span className="text-yellow-400">projects</span>
+            <br />
           </div>
         </div>
       </div>
     ),
   },
 
-  about: {
+  "--help": {
+    description: "Show available commands",
+    output: (
+      <div className="text-green-400">
+        <div className="mb-1">Available commands:</div>
+        <div className="text-gray-300 ml-4 space-y-0.5 text-sm tracking-tight">
+          <div>
+            <span className="text-yellow-400">whoami</span> — Learn more about
+            me
+          </div>
+          <div>
+            <span className="text-yellow-400">skills.sh</span> — View my
+            technical skills
+          </div>
+          <div>
+            <span className="text-yellow-400">cat contact.info</span> — Get my
+            contact information
+          </div>
+          <div>
+            <span className="text-yellow-400">cd projects</span> — See my
+            projects
+          </div>
+          <div>
+            <span className="text-yellow-400">sudo apt resume</span> — Download
+            my resume
+          </div>
+          <div>
+            <span className="text-yellow-400">view resume</span> — View my
+            resume
+          </div>
+          <div>
+            <span className="text-yellow-400">sudo apt cv</span> — Download my
+            CV
+          </div>
+          <div>
+            <span className="text-yellow-400">view cv</span> — View my CV
+          </div>
+          <div>
+            <span className="text-yellow-400">clear</span> — Clear the terminal
+          </div>
+          <div>
+            <span className="text-yellow-400">ls</span> — Show available
+            directories
+          </div>
+          <div>
+            <span className="text-yellow-400">--help</span> — Show this help
+            message
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  whoami: {
     description: "Information about me",
     output: (
       <div className="text-gray-300">
-        <div className="text-green-400 text-xl mb-2">
-          👋 Hi, I'm Aashutosh Dahal
+        <div className="text-blue-400 text-xl mb-2">
+          Hi, I'm Aashutosh Dahal
         </div>
-        <div className="space-y-2">
+        <div className="space-y-1">
           <p>Just another CS enthusiast who loves building things that work.</p>
           <p>
             I have a knack for backend systems and APIs, and I prefer minimalist
@@ -60,7 +97,7 @@ const commands = {
     ),
   },
 
-  skills: {
+  "skills.sh": {
     description: "My technical skills",
     output: (
       <div className="text-gray-300 space-y-3">
@@ -96,13 +133,9 @@ const commands = {
 
   exit: {
     description: "Exit from the terminal",
-    output: (() => {
-      // navigate("/");
-      return null; // render nothing, just redirect
-    })(),
   },
 
-  contact: {
+  "cat contact.info": {
     description: "Contact information",
     output: (
       <div className="text-gray-300 space-y-2">
@@ -132,44 +165,46 @@ const commands = {
     ),
   },
 
-  projects: {
+  "cd projects": {
     description: "My projects",
+  },
+
+  "sudo apt resume": {
+    description: "Download resume",
     output: (
-      <div className="text-gray-300 space-y-3">
-        <div className="text-green-400 font-bold">Projects:</div>
-        <div>🚀 Coming soon... Check my GitHub for latest work!</div>
-        <div>
-          Visit:{" "}
-          <a
-            href="https://github.com/AashutoshDL"
-            target="_blank"
-            className="text-blue-400 hover:underline"
-          >
-            github.com/AashutoshDL
-          </a>
-        </div>
+      <div className="text-gray-300">
+        <div className="text-green-400">📄 Resume:</div>
+        <div className="text-yellow-400 mt-2">Downloading resume...</div>
       </div>
     ),
   },
 
-  resume: {
+  "view resume": {
     description: "View resume",
     output: (
       <div className="text-gray-300">
         <div className="text-green-400">📄 Resume:</div>
-        <div className="mt-2">
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 underline hover:text-blue-300"
-          >
-            Open Resume in New Tab
-          </a>
-        </div>
-        <div className="text-yellow-400 mt-2">
-          Contact me for the latest version!
-        </div>
+        <div className="text-yellow-400 mt-2">Viewing resume...</div>
+      </div>
+    ),
+  },
+
+  "sudo apt cv": {
+    description: "Download resume",
+    output: (
+      <div className="text-gray-300">
+        <div className="text-green-400">📄 CV:</div>
+        <div className="text-yellow-400 mt-2">Downloading CV...</div>
+      </div>
+    ),
+  },
+
+  "view cv": {
+    description: "View CV",
+    output: (
+      <div className="text-gray-300">
+        <div className="text-green-400">📄 CV:</div>
+        <div className="text-yellow-400 mt-2">Viewing CV...</div>
       </div>
     ),
   },
@@ -180,7 +215,7 @@ const TerminalPortfolio = () => {
   const [currentInput, setCurrentInput] = useState("");
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Welcome message when component loads
   useEffect(() => {
@@ -193,7 +228,10 @@ const TerminalPortfolio = () => {
               Welcome to Aashutosh's Terminal Portfolio! 🚀
             </div>
             <div className="text-gray-300">
-              Type <span className="text-yellow-400">'help'</span> to see
+              Type <span className="text-yellow-400">ls</span> to see available
+              directories.
+              <br />
+              Type <span className="text-yellow-400">--help</span> to see
               available commands.
             </div>
           </div>
@@ -225,6 +263,82 @@ const TerminalPortfolio = () => {
       return;
     }
 
+    if (trimmedCommand === "exit") {
+      navigate("/");
+      return;
+    }
+
+    if (trimmedCommand === "cd projects") {
+      navigate("/projects");
+      return;
+    }
+
+    if (trimmedCommand === "sudo apt resume") {
+      const newEntry = {
+        command,
+        output: commands[trimmedCommand].output,
+        timestamp: Date.now(),
+      };
+      setHistory((prev) => [...prev, newEntry]);
+      setTimeout(() => {
+        const link = document.createElement("a");
+        link.href = "/portfolio/Resume.pdf"; // file in public folder
+        link.download = "Aashutosh_Dahal_Resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }, 500);
+
+      return;
+    }
+
+    if (trimmedCommand === "view resume") {
+      const newEntry = {
+        command,
+        output: commands[trimmedCommand].output,
+        timestamp: Date.now(),
+      };
+      setHistory((prev) => [...prev, newEntry]);
+      setTimeout(() => {
+        window.open("/portfolio/Resume.pdf", "_blank"); // open in new tab
+      }, 500);
+
+      return;
+    }
+
+    if (trimmedCommand === "sudo apt cv") {
+      const newEntry = {
+        command,
+        output: commands[trimmedCommand].output,
+        timestamp: Date.now(),
+      };
+      setHistory((prev) => [...prev, newEntry]);
+      setTimeout(() => {
+        const link = document.createElement("a");
+        link.href = "/portfolio/CV.pdf"; // file in public folder
+        link.download = "Aashutosh_Dahal_CV.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }, 500);
+
+      return;
+    }
+
+    if (trimmedCommand === "view cv") {
+      const newEntry = {
+        command,
+        output: commands[trimmedCommand].output,
+        timestamp: Date.now(),
+      };
+      setHistory((prev) => [...prev, newEntry]);
+      setTimeout(() => {
+        window.open("/portfolio/CV.pdf", "_blank"); // open in new tab
+      }, 500);
+
+      return;
+    }
+
     // Create new history entry
     const newEntry = {
       command: command,
@@ -232,7 +346,7 @@ const TerminalPortfolio = () => {
         commands[trimmedCommand].output
       ) : (
         <div className="text-red-400">
-          Command '{command}' not found. Type 'help' for available commands.
+          Command '{command}' not found. Type 'ls' for available commands.
         </div>
       ),
       timestamp: Date.now(),
