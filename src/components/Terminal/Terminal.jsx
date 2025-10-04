@@ -19,6 +19,7 @@ const commands = {
             <br />
             <span className="text-yellow-400">projects</span>
             <br />
+            <span className="text-yellow-400">experience.txt</span>
           </div>
         </div>
       </div>
@@ -63,6 +64,10 @@ const commands = {
             <span className="text-yellow-400">view cv</span> — View my CV
           </div>
           <div>
+            <span className="text-yellow-400">cat experience.txt</span> — View
+            my experience
+          </div>
+          <div>
             <span className="text-yellow-400">clear</span> — Clear the terminal
           </div>
           <div>
@@ -92,6 +97,48 @@ const commands = {
             UI.
           </p>
           <p>When it comes to tech, I'm more about logic than layers.</p>
+        </div>
+      </div>
+    ),
+  },
+
+  "cat experience.txt": {
+    description: "About my experience",
+    output: (
+      <div className="text-gray-300 font-mono space-y-2">
+        <div>
+          Role Overview:
+          <ul className="list-disc list-inside text-gray-400 ml-4">
+            <li>Backend systems and API development enthusiast</li>
+            <li>Minimalist UI preference due to colorblind-friendly design</li>
+            <li>Logic-driven approach to tech problems</li>
+          </ul>
+        </div>
+
+        <div>
+          Work Experience Summary:
+          <ul className="list-disc list-inside text-gray-400 ml-4">
+            <li>
+              <span className="text-blue-400">V Light</span> (2021 - 2022) —
+              Shop Manager
+            </li>
+            <li>
+              <span className="text-blue-400">SMaRC</span> (2024 - Present) — 3D
+              & AR Developer
+              <ul className="list-disc list-inside text-gray-500 ml-4">
+                <li>Developed immersive 3D environments using Three.js</li>
+                <li>
+                  Built web-based AR experiences and interactive museum displays
+                </li>
+                <li>Worked on WebGL projects for educational setups</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div className="text-gray-400">
+          Summary: Experienced in managing physical operations and creating
+          immersive digital experiences.
         </div>
       </div>
     ),
@@ -225,7 +272,7 @@ const TerminalPortfolio = () => {
         output: (
           <div className="text-green-400">
             <div className="text-xl mb-2">
-              Welcome to Aashutosh's Terminal Portfolio! 🚀
+              Welcome to Aashutosh's Terminal! 🚀
             </div>
             <div className="text-gray-300">
               Type <span className="text-yellow-400">ls</span> to see available
@@ -374,7 +421,7 @@ const TerminalPortfolio = () => {
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
-        <div className="text-gray-400 text-sm">Terminal Portfolio</div>
+        <div className="text-gray-400 text-sm">GNOME Terminal</div>
       </div>
 
       {/* Terminal Content */}
@@ -416,7 +463,7 @@ const TerminalPortfolio = () => {
             placeholder="Type a command..."
           />
           {/* Blinking cursor */}
-          <span className="animate-pulse text-white">_</span>
+          {/* <span className="animate-pulse text-white">_</span> */}
         </div>
       </div>
     </div>
