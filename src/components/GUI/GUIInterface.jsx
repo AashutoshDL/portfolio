@@ -30,12 +30,17 @@ const GUIInterface = () => {
 
   const handleTerminalClick = () => {
     console.log("Navigate to terminal");
-    // navigate("/terminal");
+    navigate("/terminal");
   };
 
   const handleProjectsClick = () => {
     console.log("Navigate to projects");
     navigate("/projects");
+  };
+
+  const handleExperienceClick = () => {
+    console.log("Navigate to Experience Component");
+    navigate("/experience");
   };
 
   const swapColors = () => {
@@ -197,6 +202,25 @@ const GUIInterface = () => {
             }}
           >
             View Projects
+          </button>
+          <button
+            onClick={handleExperienceClick}
+            className="px-8 py-3 ml-10 text-lg lg:text-xl font-medium border-2 transition-all duration-200 hover:opacity-70 active:scale-95"
+            style={{
+              borderColor: foregroundColor,
+              color: foregroundColor,
+              backgroundColor: "transparent",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = foregroundColor;
+              e.target.style.color = backgroundColor;
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.color = foregroundColor;
+            }}
+          >
+            View Experience
           </button>
         </div>
       </main>
