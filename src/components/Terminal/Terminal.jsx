@@ -280,6 +280,9 @@ const TerminalPortfolio = () => {
               <br />
               Type <span className="text-yellow-400">--help</span> to see
               available commands.
+              <br />
+              Type <span className="text-yellow-400">exit</span> to exit and go
+              back to homepage.
             </div>
           </div>
         ),
